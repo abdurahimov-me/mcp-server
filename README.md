@@ -8,9 +8,11 @@ FastMCP 4 asosidagi HTTP MCP server. `app/tools/` ichidagi kichik MCP serverlar 
 | --- | --- |
 | `/mcp` | MCP client ulanadigan Streamable HTTP endpoint |
 | `/health` | Container va monitoring uchun ochiq health check |
-| `/docs` | Brauzerda ko‘riladigan ulanish yo‘riqnomasi |
+| `/docs` | Tool sxemalaridan avtomatik tuziladigan katalog va ulanish yo‘riqnomasi |
 
-MCP Swagger/OpenAPI REST API emas. Tool’larning joriy sxemasini clientdagi `list_tools()` orqali ko‘ring. `/health` va `/docs` ochiq HTTP yo‘llar; JWT auth `/mcp`ga qo‘llanadi.
+MCP Swagger/OpenAPI REST API emas. `/docs` sahifasidagi tool katalogi `list_tools()` ma’lumotlaridan har so‘rovda avtomatik tuziladi. Toollarni interaktiv sinash uchun MCP Inspector ishlating. `/health` va `/docs` ochiq HTTP yo‘llar; JWT auth `/mcp`ga qo‘llanadi.
+
+Inspector uchun `npx @modelcontextprotocol/inspector`ni ishga tushiring, brauzerda **Streamable HTTP** transportini tanlang va server URL sifatida `http://127.0.0.1:8000/mcp`ni kiriting. Docker rejimida ulanishga `Authorization: Bearer <JWT_TOKEN>` headerini qo‘shing. Inspector tool ro‘yxati, argumentlari va chaqiruv natijasini ko‘rsatadi.
 
 ## Docker bilan production ishga tushirish
 
