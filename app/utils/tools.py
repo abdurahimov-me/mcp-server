@@ -1,4 +1,4 @@
-from collections.abc import Callable, Iterable
+from collections.abc import Iterable
 from dataclasses import dataclass
 
 from fastmcp import FastMCP
@@ -6,8 +6,8 @@ from fastmcp import FastMCP
 
 @dataclass(frozen=True)
 class Tools:
-    registrars: Iterable[Callable[[FastMCP], None]]
+    servers: Iterable[FastMCP]
 
-    def register_tools(self, app: FastMCP) -> None:
-        for register in self.registrars:
-            register(app)
+    def mount_tools(self, app: FastMCP) -> None:
+        for server in self.servers:
+            app.mount(server)
