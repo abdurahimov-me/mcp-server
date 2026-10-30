@@ -46,12 +46,8 @@ class ToolTests(unittest.IsolatedAsyncioTestCase):
 
 
 class RouteTests(unittest.TestCase):
-    def test_health_and_docs_routes(self) -> None:
+    def test_docs_route(self) -> None:
         with TestClient(mcp.http_app()) as client:
-            health = client.get("/health")
-            self.assertEqual(health.status_code, 200)
-            self.assertEqual(health.json(), {"status": "ok"})
-
             docs = client.get("/docs")
             self.assertEqual(docs.status_code, 200)
             self.assertIn(mcp.name, docs.text)

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from fastmcp import FastMCP
 from starlette.requests import Request
-from starlette.responses import HTMLResponse, JSONResponse
+from starlette.responses import HTMLResponse
 
 from tools import __tools__
 
@@ -27,10 +27,6 @@ class Server:
 
     @staticmethod
     def __register_routes(app: FastMCP) -> None:
-        @app.custom_route("/health", methods=["GET"])
-        async def health(_request: Request) -> JSONResponse:
-            return JSONResponse({"status": "ok"})
-
         @app.custom_route("/docs", methods=["GET"])
         async def docs(_request: Request) -> HTMLResponse:
             cards = []

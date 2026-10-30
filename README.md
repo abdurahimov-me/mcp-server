@@ -7,10 +7,9 @@ FastMCP 4 asosidagi HTTP MCP server. `app/tools/` ichidagi kichik MCP serverlar 
 | Manzil | Maqsad |
 | --- | --- |
 | `/mcp` | MCP client ulanadigan Streamable HTTP endpoint |
-| `/health` | Container va monitoring uchun ochiq health check |
 | `/docs` | Tool sxemalaridan avtomatik tuziladigan katalog va ulanish yo‘riqnomasi |
 
-MCP Swagger/OpenAPI REST API emas. `/docs` sahifasidagi tool katalogi `list_tools()` ma’lumotlaridan har so‘rovda avtomatik tuziladi. Toollarni interaktiv sinash uchun MCP Inspector ishlating. `/health` va `/docs` ochiq HTTP yo‘llar; JWT auth `/mcp`ga qo‘llanadi.
+MCP Swagger/OpenAPI REST API emas. `/docs` sahifasidagi tool katalogi `list_tools()` ma’lumotlaridan har so‘rovda avtomatik tuziladi. Toollarni interaktiv sinash uchun MCP Inspector ishlating. `/docs` ochiq HTTP yo‘l; JWT auth `/mcp`ga qo‘llanadi.
 
 Inspector uchun `npx @modelcontextprotocol/inspector`ni ishga tushiring, brauzerda **Streamable HTTP** transportini tanlang va server URL sifatida `http://127.0.0.1:8000/mcp`ni kiriting. Docker rejimida ulanishga `Authorization: Bearer <JWT_TOKEN>` headerini qo‘shing. Inspector tool ro‘yxati, argumentlari va chaqiruv natijasini ko‘rsatadi.
 
@@ -27,7 +26,7 @@ docker compose up --build -d
 docker compose ps
 ```
 
-Keyin `http://127.0.0.1:8000/docs` va `http://127.0.0.1:8000/health`ni oching. MCP endpoint: `http://127.0.0.1:8000/mcp`. Loglar: `docker compose logs -f mcp`. To‘xtatish: `docker compose down`.
+Keyin `http://127.0.0.1:8000/docs`ni oching. MCP endpoint: `http://127.0.0.1:8000/mcp`. Loglar: `docker compose logs -f mcp`. To‘xtatish: `docker compose down`.
 
 Compose JWT rejimini majburiy yoqadi va serverni standart holatda faqat hostning `127.0.0.1` manziliga chiqaradi. Tashqi clientlar uchun HTTPS reverse proxy orqali `/mcp`ni chiqaring; `MCP_BIND_ADDRESS`ni faqat tarmoq siyosatiga mos holda o‘zgartiring. `MCP_PUBLIC_PORT` host portini almashtiradi.
 
