@@ -1,6 +1,6 @@
 from fastmcp import FastMCP
 
-from app.config.server import Server
+from config.server import Server
 
 
 def app() -> FastMCP:

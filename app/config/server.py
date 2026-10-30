@@ -1,6 +1,6 @@
 from fastmcp import FastMCP
 
-from app.tools import __tools__
+from tools import __tools__
 
 
 class Server:
