@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from fastmcp import Client
+from fastmcp.server.auth.providers.jwt import JWTVerifier
 from pydantic import ValidationError
 from starlette.testclient import TestClient
 
@@ -34,6 +35,12 @@ class SettingsTests(unittest.TestCase):
             settings = Settings(_env_file=None)
         with patch.object(main, "SETTINGS", settings):
             self.assertEqual(main.app().name, "demo-mcp")
+
+    def test_jwt_auth_is_applied_to_server(self) -> None:
+        with patch.dict("os.environ", {"MCP_AUTH_MODE": "jwt", "JWT_SECRET_KEY": "test-secret"}, clear=True):
+            settings = Settings(_env_file=None)
+        with patch.object(main, "SETTINGS", settings):
+            self.assertIsInstance(main.app().auth, JWTVerifier)
 
 
 class ToolTests(unittest.IsolatedAsyncioTestCase):
