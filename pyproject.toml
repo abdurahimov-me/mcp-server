@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-server"
+version = "0.1.0"
+description = "FastMCP HTTP server"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp==4.1.4",
+    "pydantic-settings==2.16.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.2.0",
+    "pytest-asyncio==1.4.1",
+]
+prod = [
+    "gunicorn==26.2.0",
+    "uvicorn-worker==0.4.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "app"}
+py-modules = ["main"]
+
+[tool.setuptools.packages.find]
+where = ["app"]
+include = ["config*", "resources*", "tools*", "utils*"]
+
+[tool.setuptools.package-data]
+config = ["docs.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["app"]
