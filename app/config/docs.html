@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breeze MCP — Documentation</title>
+  <style>
+    :root { color-scheme: light; font-family: Inter, system-ui, -apple-system, sans-serif; }
+    body { margin: 0; background: #f5f7fb; color: #15243a; line-height: 1.6; }
+    main { max-width: 860px; margin: 0 auto; padding: 56px 24px 80px; }
+    .eyebrow { color: #2563eb; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; }
+    h1 { font-size: clamp(36px, 7vw, 58px); line-height: 1.1; margin: 10px 0 16px; }
+    h2 { margin-top: 42px; font-size: 24px; }
+    p { max-width: 70ch; }
+    .lead { font-size: 19px; color: #526276; }
+    .card { background: white; border: 1px solid #e1e7f0; border-radius: 16px; padding: 20px 24px; margin: 18px 0; box-shadow: 0 10px 28px rgba(18, 43, 80, .05); }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { background: #eaf0fa; padding: 2px 5px; border-radius: 5px; }
+    pre { overflow-x: auto; background: #10213a; color: #e8f1ff; padding: 20px; border-radius: 12px; }
+    pre code { background: none; padding: 0; }
+    a { color: #1d4ed8; }
+    .tag { display: inline-block; background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Breeze / Model Context Protocol</div>
+    <h1>MCP server hujjati</h1>
+    <p class="lead">Breeze tool’lariga Streamable HTTP orqali ulaning. MCP endpoint <code>/mcp</code> manzilida ishlaydi.</p>
+
+    <div class="card">
+      <span class="tag">GET /health</span>
+      <p>Server ishlayotganini tekshirish uchun ochiq health endpoint. MCP endpoint esa JWT rejimida bearer token talab qiladi.</p>
+    </div>
+
+    <h2>Ulanish</h2>
+    <p>Client manzili: <code>http://localhost:8000/mcp</code>. Boshqa host yoki portdan foydalansangiz, manzilni moslang. Tashqi tarmoqda HTTPS reverse proxy ishlating.</p>
+    <pre><code>from fastmcp import Client
+
+async with Client("http://localhost:8000/mcp", auth="&lt;JWT_TOKEN&gt;") as client:
+    tools = await client.list_tools()
+    result = await client.call_tool("greet", {"name": "Ali"})
+    print(result.data)</code></pre>
+    <p>JWT tokenni <code>slayd24-ai</code> auth xizmatidan oling. FastMCP client uni <code>Authorization: Bearer &lt;token&gt;</code> sifatida yuboradi.</p>
+
+    <h2>Namuna tool</h2>
+    <div class="card">
+      <strong><code>greet(name: str) -&gt; str</code></strong>
+      <p>Berilgan ismga salom qaytaradi. Masalan, <code>greet(name="Ali")</code> natijasi <code>Salom, Ali!</code></p>
+    </div>
+
+    <h2>Qo‘shimcha</h2>
+    <p>Bu MCP server. Shu sabab <code>/docs</code> sahifasi Swagger/OpenAPI emas; tool’larning to‘liq va joriy ro‘yxatini MCP clientdagi <code>list_tools()</code> orqali oling. <a href="https://gofastmcp.com/clients/client">FastMCP client hujjati</a>.</p>
+  </main>
+</body>
+</html>

@@ -1,2 +1,35 @@
 services:
-  
+  mcp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: breeze-mcp:local
+    init: true
+    restart: unless-stopped
+    environment:
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: "8000"
+      MCP_AUTH_MODE: jwt
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in .env}
+      MCP_JWT_ISSUER: ${MCP_JWT_ISSUER:-}
+      MCP_JWT_AUDIENCE: ${MCP_JWT_AUDIENCE:-}
+    ports:
+      - "${MCP_BIND_ADDRESS:-127.0.0.1}:${MCP_PUBLIC_PORT:-8000}:8000"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 30s
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).close()"
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3

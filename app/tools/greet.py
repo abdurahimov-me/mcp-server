@@ -1,7 +1,7 @@
 from fastmcp import FastMCP
 
 
-mcp = FastMCP("Greeting")
+mcp = FastMCP("Greeting", mask_error_details=True)
 
 
 @mcp.tool

@@ -1,4 +1,24 @@
-FROM ubuntu:latest
-LABEL authors="a.abdurahimov"
+FROM python:3.12-slim-bookworm
 
-ENTRYPOINT ["top", "-b"]
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HOME=/tmp
+
+WORKDIR /srv/mcp
+
+COPY requirments/ ./requirments/
+RUN python -m pip install --no-cache-dir -r requirments/prod.txt \
+    && groupadd --system --gid 10001 mcp \
+    && useradd --system --uid 10001 --gid mcp --home-dir /tmp --no-create-home mcp
+
+COPY app/ ./app/
+COPY scripts/entrypoint.sh ./scripts/entrypoint.sh
+RUN sed -i 's/\r$//' ./scripts/entrypoint.sh \
+    && chmod 755 ./scripts/entrypoint.sh \
+    && chown -R mcp:mcp /srv/mcp
+
+USER mcp
+EXPOSE 8000
+
+ENTRYPOINT ["/srv/mcp/scripts/entrypoint.sh"]

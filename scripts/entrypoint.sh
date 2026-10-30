@@ -1,8 +1,4 @@
 #!/bin/sh
-set -e
+set -eu
 
-echo "Applying database migrations..."
-alembic upgrade head
-
-echo "Starting supervisor..."
-exec supervisord -c /scripts/supervisord.conf
+exec python /srv/mcp/app/main.py
