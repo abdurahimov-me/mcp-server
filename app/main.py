@@ -4,7 +4,9 @@ from config.server import Server
 
 
 def app() -> FastMCP:
-    mcp = FastMCP("MCP Server")
+    mcp = FastMCP(
+        name="Breeze"
+    )
     return Server(mcp).get_app()
 
 
