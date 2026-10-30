@@ -67,6 +67,7 @@ class Server:
                     f'<details><summary>Sxemani ko‘rish <span aria-hidden="true">⌄</span></summary>'
                     f'<pre><code>{schema}</code></pre></details></article>'
                 )
-            page = DOCS_HTML.replace("<!-- TOOL_COUNT -->", str(len(cards)))
+            page = DOCS_HTML.replace("<!-- SERVER_NAME -->", html.escape(app.name))
+            page = page.replace("<!-- TOOL_COUNT -->", str(len(cards)))
             page = page.replace("<!-- TOOL_CARDS -->", "\n".join(cards))
             return HTMLResponse(page)

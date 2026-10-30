@@ -1,4 +1,4 @@
-# Breeze MCP server
+# MCP server
 
 FastMCP 4 asosidagi HTTP MCP server. `app/tools/` ichidagi kichik MCP serverlar `app/utils/tools.py` yordamida asosiy serverga `mount` qilinadi. Hozir `greet` namuna tool’i bor.
 
@@ -30,6 +30,8 @@ docker compose ps
 Keyin `http://127.0.0.1:8000/docs` va `http://127.0.0.1:8000/health`ni oching. MCP endpoint: `http://127.0.0.1:8000/mcp`. Loglar: `docker compose logs -f mcp`. To‘xtatish: `docker compose down`.
 
 Compose JWT rejimini majburiy yoqadi va serverni standart holatda faqat hostning `127.0.0.1` manziliga chiqaradi. Tashqi clientlar uchun HTTPS reverse proxy orqali `/mcp`ni chiqaring; `MCP_BIND_ADDRESS`ni faqat tarmoq siyosatiga mos holda o‘zgartiring. `MCP_PUBLIC_PORT` host portini almashtiradi.
+
+`.env`dagi `COMPOSE_PROJECT_NAME` Compose project nomini va FastMCP server nomini belgilaydi. `CONTAINER_PREFIX` Docker image va container nomi prefiksi uchun ishlatiladi; masalan, `CONTAINER_PREFIX=myapp` bo‘lsa container nomi `myapp-mcp` bo‘ladi. Bir hostda bir nechta instansiya ishlasa, har biriga alohida prefix qo‘ying.
 
 `slayd24-ai`ning hozirgi JWT’larida `iss` va `aud` claim’lari yo‘q. Shuning uchun `.env`dagi `MCP_JWT_ISSUER` va `MCP_JWT_AUDIENCE` dastlab bo‘sh qoladi. Token chiqarish qismiga ushbu claim’lar qo‘shilgach, ikkisini ham tekshirish uchun mos qiymatga sozlang. Token muddati (`exp`) va HS256 imzosi tekshiriladi.
 

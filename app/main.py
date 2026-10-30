@@ -17,8 +17,8 @@ def app() -> FastMCP:
         )
 
     mcp = FastMCP(
-        name="Breeze",
-        instructions="Breeze MCP tools. Start by listing the available tools.",
+        name=SETTINGS.project_name,
+        instructions=f"{SETTINGS.project_name} MCP tools. Start by listing the available tools.",
         auth=auth,
         mask_error_details=True,
     )

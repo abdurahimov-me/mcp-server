@@ -11,13 +11,15 @@ from starlette.testclient import TestClient
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app"))
 
 from config.settings import Settings  # noqa: E402
+import main  # noqa: E402
 from main import mcp  # noqa: E402
 
 
 class SettingsTests(unittest.TestCase):
     def test_environment_values_are_validated(self) -> None:
-        with patch.dict("os.environ", {"MCP_PORT": "9000", "MCP_AUTH_MODE": "JWT", "JWT_SECRET_KEY": "test-secret"}, clear=True):
+        with patch.dict("os.environ", {"COMPOSE_PROJECT_NAME": "demo-mcp", "MCP_PORT": "9000", "MCP_AUTH_MODE": "JWT", "JWT_SECRET_KEY": "test-secret"}, clear=True):
             settings = Settings(_env_file=None)
+        self.assertEqual(settings.project_name, "demo-mcp")
         self.assertEqual(settings.port, 9000)
         self.assertEqual(settings.auth_mode, "jwt")
         self.assertEqual(settings.jwt_secret_key.get_secret_value(), "test-secret")
@@ -26,6 +28,12 @@ class SettingsTests(unittest.TestCase):
         with patch.dict("os.environ", {"MCP_AUTH_MODE": "jwt", "JWT_SECRET_KEY": ""}, clear=True):
             with self.assertRaises(ValidationError):
                 Settings(_env_file=None)
+
+    def test_fastmcp_name_follows_project_name(self) -> None:
+        with patch.dict("os.environ", {"COMPOSE_PROJECT_NAME": "demo-mcp"}, clear=True):
+            settings = Settings(_env_file=None)
+        with patch.object(main, "SETTINGS", settings):
+            self.assertEqual(main.app().name, "demo-mcp")
 
 
 class ToolTests(unittest.IsolatedAsyncioTestCase):
@@ -46,7 +54,7 @@ class RouteTests(unittest.TestCase):
 
             docs = client.get("/docs")
             self.assertEqual(docs.status_code, 200)
-            self.assertIn("Breeze MCP", docs.text)
+            self.assertIn(mcp.name, docs.text)
             self.assertIn("greet", docs.text)
             self.assertIn("tool-grid", docs.text)
             self.assertIn("tool-search", docs.text)

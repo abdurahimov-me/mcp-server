@@ -17,6 +17,7 @@ class Settings(BaseSettings):
         frozen=True,
     )
 
+    project_name: str = Field(default="mcp-server", min_length=1, validation_alias="COMPOSE_PROJECT_NAME")
     host: str = Field(default="127.0.0.1", validation_alias="MCP_HOST")
     port: int = Field(default=8000, ge=1, le=65535, validation_alias="MCP_PORT")
     auth_mode: Literal["none", "jwt"] = Field(default="none", validation_alias="MCP_AUTH_MODE")

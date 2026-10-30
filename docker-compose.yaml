@@ -1,15 +1,19 @@
+name: ${COMPOSE_PROJECT_NAME:-mcp-server}
+
 services:
   mcp:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: breeze-mcp:local
+    image: ${CONTAINER_PREFIX:-mcp-server}-mcp:local
+    container_name: ${CONTAINER_PREFIX:-mcp-server}-mcp
     init: true
     restart: unless-stopped
     environment:
       MCP_HOST: 0.0.0.0
       MCP_PORT: "8000"
       MCP_AUTH_MODE: jwt
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-mcp-server}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in .env}
       MCP_JWT_ISSUER: ${MCP_JWT_ISSUER:-}
       MCP_JWT_AUDIENCE: ${MCP_JWT_AUDIENCE:-}
