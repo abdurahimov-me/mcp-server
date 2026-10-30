@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /srv/mcp
 
 COPY requirments/ ./requirments/
-RUN python -m pip install --no-cache-dir -r requirments/prod.txt \
+RUN python -m pip install --no-cache-dir -r requirements/prod.txt \
     && groupadd --system --gid 10001 mcp \
     && useradd --system --uid 10001 --gid mcp --home-dir /tmp --no-create-home mcp
 
