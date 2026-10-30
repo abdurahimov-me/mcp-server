@@ -47,8 +47,8 @@ class ToolTests(unittest.IsolatedAsyncioTestCase):
     async def test_greet_tool_can_be_called(self) -> None:
         async with Client(mcp) as client:
             names = [tool.name for tool in await client.list_tools()]
-            self.assertIn("greet", names)
-            result = await client.call_tool("greet", {"name": "Ali"})
+            self.assertIn("greeting_greet", names)
+            result = await client.call_tool("greeting_greet", {"name": "Ali"})
             self.assertEqual(result.data, "Salom, Ali!")
 
 
@@ -58,10 +58,10 @@ class RouteTests(unittest.TestCase):
             docs = client.get("/docs")
             self.assertEqual(docs.status_code, 200)
             self.assertIn(mcp.name, docs.text)
-            self.assertIn("greet", docs.text)
+            self.assertIn("greeting_greet", docs.text)
             self.assertIn("tool-grid", docs.text)
             self.assertIn("tool-search", docs.text)
             self.assertIn("<details>", docs.text)
-            self.assertIn('data-search="greet', docs.text)
+            self.assertIn('data-search="greeting_greet', docs.text)
             self.assertNotIn("\ufffd", docs.text)
             self.assertIn("name", docs.text)

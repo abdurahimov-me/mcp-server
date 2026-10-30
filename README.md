@@ -58,11 +58,11 @@ from fastmcp import Client
 async def main():
     async with Client("http://127.0.0.1:8000/mcp", auth=os.environ["SLAYD24_JWT"]) as client:
         print([tool.name for tool in await client.list_tools()])
-        print((await client.call_tool("greet", {"name": "Ali"})).data)
+        print((await client.call_tool("greeting_greet", {"name": "Ali"})).data)
 
 asyncio.run(main())
 ```
 
 ## Yangi tool qo‘shish
 
-`app/tools/`da `FastMCP` obyektli modul yarating, tool’larni unga dekorator bilan qo‘shing. So‘ng modulning `mcp` obyektini `app/tools/__init__.py`dagi `__tools__` ro‘yxatiga kiriting; `Server` uni asosiy serverga mount qiladi.
+`app/tools/`da `FastMCP` obyektli modul yarating, tool’larni unga dekorator bilan qo‘shing. So‘ng modulning `mcp` obyektini `app/tools/__init__.py`dagi `__tools__` ro‘yxatiga `ToolMount(server=modul.mcp, namespace="guruh")` ko‘rinishida kiriting. Namespace berilsa, masalan `greet` tool’i clientga `guruh_greet` nomi bilan ko‘rinadi; namespace kerak bo‘lmasa `namespace`ni bermang.

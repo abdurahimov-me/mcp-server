@@ -1,5 +1,5 @@
 from tools import greet
-from utils.tools import Tools
+from utils.tools import ToolMount, Tools
 
 
-__tools__ = Tools(servers=(greet.mcp,))
+__tools__ = Tools(servers=(ToolMount(server=greet.mcp, namespace="greeting"),))

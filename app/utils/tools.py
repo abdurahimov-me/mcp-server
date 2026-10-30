@@ -5,9 +5,15 @@ from fastmcp import FastMCP
 
 
 @dataclass(frozen=True)
+class ToolMount:
+    server: FastMCP
+    namespace: str | None = None
+
+
+@dataclass(frozen=True)
 class Tools:
-    servers: Iterable[FastMCP]
+    servers: Iterable[ToolMount]
 
     def mount_tools(self, app: FastMCP) -> None:
-        for server in self.servers:
-            app.mount(server)
+        for item in self.servers:
+            app.mount(item.server, namespace=item.namespace)
