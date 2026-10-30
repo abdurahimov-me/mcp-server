@@ -3,7 +3,8 @@ FROM python:3.12-slim-bookworm
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    HOME=/tmp
+    HOME=/tmp \
+    PYTHONPATH=/srv/mcp/app
 
 WORKDIR /srv/mcp
 
@@ -13,6 +14,7 @@ RUN python -m pip install --no-cache-dir -r requirments/prod.txt \
     && useradd --system --uid 10001 --gid mcp --home-dir /tmp --no-create-home mcp
 
 COPY app/ ./app/
+COPY gunicorn_conf.py ./gunicorn_conf.py
 COPY scripts/entrypoint.sh ./scripts/entrypoint.sh
 RUN sed -i 's/\r$//' ./scripts/entrypoint.sh \
     && chmod 755 ./scripts/entrypoint.sh \

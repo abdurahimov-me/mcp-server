@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app"))
 
 from config.settings import Settings  # noqa: E402
 import main  # noqa: E402
-from main import mcp  # noqa: E402
+from main import asgi_app, mcp  # noqa: E402
 
 
 class SettingsTests(unittest.TestCase):
@@ -47,7 +47,7 @@ class ToolTests(unittest.IsolatedAsyncioTestCase):
 
 class RouteTests(unittest.TestCase):
     def test_docs_route(self) -> None:
-        with TestClient(mcp.http_app()) as client:
+        with TestClient(asgi_app) as client:
             docs = client.get("/docs")
             self.assertEqual(docs.status_code, 200)
             self.assertIn(mcp.name, docs.text)

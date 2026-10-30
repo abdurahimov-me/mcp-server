@@ -26,6 +26,7 @@ def app() -> FastMCP:
 
 
 mcp = app()
+asgi_app = mcp.http_app(stateless_http=True)
 
 
 if __name__ == "__main__":

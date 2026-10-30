@@ -16,7 +16,7 @@ Inspector uchun `npx @modelcontextprotocol/inspector`ni ishga tushiring, brauzer
 ## Docker bilan production ishga tushirish
 
 1. `.env.example` nusxasini `.env` qilib oling.
-2. `JWT_SECRET_KEY`ga `slayd24-ai` ishlatadigan **aynan o‘sha HS256 signing secret**ni kiriting. Uni Git’ga qo‘shmang.
+2. `JWT_SECRET_KEY`ga `slayd24-ai` ishlatadigan **aynan o‘sha HS256 signing secret**ni kiriting. `.env`dagi `MCP_AUTH_MODE=jwt` qiymatini saqlang. `.env`ni Git’ga qo‘shmang.
 3. Repo ildizida ishga tushiring:
 
 ```powershell
@@ -28,7 +28,7 @@ docker compose ps
 
 Keyin `http://127.0.0.1:8000/docs`ni oching. MCP endpoint: `http://127.0.0.1:8000/mcp`. Loglar: `docker compose logs -f mcp`. To‘xtatish: `docker compose down`.
 
-Compose JWT rejimini majburiy yoqadi va serverni standart holatda faqat hostning `127.0.0.1` manziliga chiqaradi. Tashqi clientlar uchun HTTPS reverse proxy orqali `/mcp`ni chiqaring; `MCP_BIND_ADDRESS`ni faqat tarmoq siyosatiga mos holda o‘zgartiring. `MCP_PUBLIC_PORT` host portini almashtiradi.
+Compose `.env`ni `env_file` orqali containerga uzatadi. Container Gunicorn master va Uvicorn workerlar bilan ishlaydi; `GUNICORN_WORKERS` workerlar sonini belgilaydi. `MCP_HOST=0.0.0.0` container ichidagi bind manzili, `MCP_PORT=8000` esa container porti. Compose serverni standart holatda faqat hostning `127.0.0.1` manziliga chiqaradi. Tashqi clientlar uchun HTTPS reverse proxy orqali `/mcp`ni chiqaring; `MCP_BIND_ADDRESS`ni faqat tarmoq siyosatiga mos holda o‘zgartiring. `MCP_PUBLIC_PORT` host portini almashtiradi.
 
 `.env`dagi `COMPOSE_PROJECT_NAME` Compose project nomini va FastMCP server nomini belgilaydi. `CONTAINER_PREFIX` Docker image va container nomi prefiksi uchun ishlatiladi; masalan, `CONTAINER_PREFIX=myapp` bo‘lsa container nomi `myapp-mcp` bo‘ladi. Bir hostda bir nechta instansiya ishlasa, har biriga alohida prefix qo‘ying.
 
@@ -44,7 +44,7 @@ python -m venv .venv
 .venv\Scripts\python.exe app\main.py
 ```
 
-Lokal rejim standart holatda `127.0.0.1:8000`da auth’siz ishlaydi. Sozlamalar `pydantic-settings` orqali repo ildizidagi `.env` faylidan yoki environment o‘zgaruvchilaridan o‘qiladi; environment qiymatlari ustun turadi. Lokal JWT tekshiruvi kerak bo‘lsa, `MCP_AUTH_MODE=jwt` va `JWT_SECRET_KEY`ni bering. Host va port uchun `MCP_HOST`, `MCP_PORT` ishlatiladi.
+Lokal `python app/main.py` FastMCP’ning ichki Uvicorn serverini ishga tushiradi. Sozlamalar `pydantic-settings` orqali repo ildizidagi `.env` faylidan yoki environment o‘zgaruvchilaridan o‘qiladi; environment qiymatlari ustun turadi. `.env` bo‘lmasa `127.0.0.1:8000`da auth’siz ishlaydi. Docker uchun nusxalangan `.env` lokal rejimga ham ta’sir qiladi: unda `MCP_HOST=0.0.0.0` va `MCP_AUTH_MODE=jwt` berilgan.
 
 ## Client bilan tekshirish
 

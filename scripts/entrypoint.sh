@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 
-exec python /srv/mcp/app/main.py
+exec gunicorn --config /srv/mcp/gunicorn_conf.py main:asgi_app
