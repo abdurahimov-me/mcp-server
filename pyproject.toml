@@ -29,10 +29,10 @@ py-modules = ["main"]
 
 [tool.setuptools.packages.find]
 where = ["app"]
-include = ["config*", "resources*", "tools*", "utils*"]
+include = ["config*", "resources*", "templates*", "tools*", "utils*"]
 
 [tool.setuptools.package-data]
-config = ["docs.html"]
+templates = ["docs.html"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

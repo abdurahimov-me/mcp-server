@@ -21,6 +21,7 @@ def app() -> FastMCP:
         instructions=f"{SETTINGS.project_name} MCP tools. Start by listing the available tools.",
         auth=auth,
         mask_error_details=True,
+        lifespan=Server.lifespan,
     )
     return Server(mcp).get_app()
 

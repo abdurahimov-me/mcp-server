@@ -7,7 +7,7 @@ from starlette.requests import Request
 from starlette.responses import HTMLResponse
 
 
-DOCS_HTML = Path(__file__).with_name("docs.html").read_text(encoding="utf-8")
+DOCS_HTML = (Path(__file__).resolve().parents[1] / "templates" / "docs.html").read_text(encoding="utf-8")
 
 
 def register_docs(app: FastMCP) -> None:

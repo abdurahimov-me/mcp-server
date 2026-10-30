@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastmcp import FastMCP
 
 from config.docs import register_docs
@@ -20,3 +22,10 @@ class Server:
     def __register_docs(app: FastMCP) -> None:
         register_docs(app)
 
+    @staticmethod
+    @asynccontextmanager
+    async def lifespan(app: FastMCP):
+        from .events import on_startup, on_shutdown
+        await on_startup(app)
+        yield
+        await on_shutdown(app)
